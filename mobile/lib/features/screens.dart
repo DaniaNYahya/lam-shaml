@@ -423,7 +423,7 @@ class _RequestFormScreenState extends State<RequestFormScreen> {
               AppTextField(controller: _c['registered_by_name']!, label: 'اسم الشخص أو الجهة المسجلة', icon: Icons.business),
             ],
             DropdownButtonFormField<String>(
-              value: _priority,
+              initialValue: _priority,
               decoration: const InputDecoration(labelText: 'الأولوية', prefixIcon: Icon(Icons.priority_high)),
               items: const [
                 DropdownMenuItem(value: 'low', child: Text('منخفضة')),

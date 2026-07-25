@@ -39,7 +39,7 @@ class LamShamlApp extends StatelessWidget {
           brightness: Brightness.light,
         ),
         scaffoldBackgroundColor: const Color(0xfff7f9f6),
-        cardTheme: const CardTheme(
+        cardTheme: const CardThemeData(
           elevation: 0,
           margin: EdgeInsets.symmetric(vertical: 6),
           shape: RoundedRectangleBorder(
