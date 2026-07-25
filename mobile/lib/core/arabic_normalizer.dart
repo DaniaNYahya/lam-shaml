@@ -24,8 +24,16 @@ class ArabicNormalizer {
   }
 
   static bool sameNameParts(String first, String second) {
-    final a = normalize(first).split(' ')..sort();
-    final b = normalize(second).split(' ')..sort();
+    final a = normalize(first).split(' ').map(_nameMatchKey).toList()..sort();
+    final b = normalize(second).split(' ').map(_nameMatchKey).toList()..sort();
     return a.join(' ') == b.join(' ');
+  }
+
+  // Arabic names are sometimes entered with final alif instead of alif maqsura.
+  static String _nameMatchKey(String token) {
+    if (token.length > 2 && token.endsWith('\u0627')) {
+      return '${token.substring(0, token.length - 1)}\u064a';
+    }
+    return token;
   }
 }
