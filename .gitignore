@@ -9,3 +9,7 @@ backend/storage/uploads/*
 vendor/
 *.log
 *.zip
+.env
+database/install.lock
+public/uploads/*
+!public/uploads/.htaccess
