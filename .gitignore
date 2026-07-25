@@ -1,0 +1,11 @@
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+mobile/build/
+mobile/android/local.properties
+backend/storage/uploads/*
+!backend/storage/uploads/.htaccess
+vendor/
+*.log
+*.zip

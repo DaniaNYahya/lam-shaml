@@ -1,0 +1,22 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+android {
+    namespace "com.lamshaml.app"
+    compileSdk flutter.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.lamshaml.app"
+        minSdkVersion 23
+        targetSdk flutter.targetSdkVersion
+        versionCode flutter.versionCode
+        versionName flutter.versionName
+    }
+}
+
+flutter {
+    source "../.."
+}

@@ -1,0 +1,22 @@
+:root { --calm:#116149; --ink:#15231f; --muted:#66736e; --soft:#eef6f2; --line:#dce7e1; }
+body { background:#f8faf8; color:var(--ink); font-family: system-ui, "Segoe UI", Tahoma, Arial, sans-serif; }
+h1 { font-size:clamp(1.7rem, 3vw, 3rem); font-weight:800; letter-spacing:0; }
+h2 { font-size:1.25rem; font-weight:750; letter-spacing:0; }
+.hero { min-height:58vh; display:grid; align-items:center; padding:4rem 0; background:linear-gradient(120deg, rgba(238,246,242,.95), rgba(255,255,255,.9)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='500'%3E%3Crect width='900' height='500' fill='%23eef6f2'/%3E%3Cpath d='M0 410C180 330 280 450 430 350s300-120 470 10v140H0z' fill='%23d7eadf'/%3E%3Cpath d='M80 135h180v185H80zM320 92h190v228H320zM575 150h210v170H575z' fill='%23ffffff'/%3E%3Ccircle cx='170' cy='185' r='38' fill='%23116149'/%3E%3Ccircle cx='415' cy='165' r='42' fill='%2380a88f'/%3E%3Ccircle cx='680' cy='204' r='34' fill='%23d0a45f'/%3E%3C/svg%3E") center/cover; border-radius:8px; padding-inline:2rem; }
+.hero > div { max-width:760px; }
+.kicker { color:var(--calm); font-weight:800; text-transform:uppercase; }
+.metric, .step, .result-card, .form-shell, .search-panel, .privacy-note { background:#fff; border:1px solid var(--line); border-radius:8px; padding:1rem; }
+.metric strong { display:block; color:var(--calm); font-size:2rem; }
+.metric span, .text-muted { color:var(--muted)!important; }
+.full-band { background:var(--soft); margin-inline:calc(50% - 50vw); padding:2rem calc(50vw - 50%); }
+.form-shell { max-width:980px; margin:auto; }
+.form-shell.narrow { max-width:520px; }
+.details-grid { display:grid; grid-template-columns:160px 1fr; gap:.65rem 1rem; }
+.details-grid dt { color:var(--muted); }
+.detail-photo, .thumb { object-fit:cover; border-radius:8px; border:1px solid var(--line); }
+.detail-photo { width:100%; max-height:360px; }
+.thumb { width:92px; height:92px; }
+.empty-photo, .empty-state { border:1px dashed var(--line); border-radius:8px; padding:2rem; text-align:center; color:var(--muted); background:#fff; }
+.score { color:var(--calm); font-weight:800; }
+.btn, .form-control, .form-select { border-radius:8px; }
+@media (max-width: 700px) { .details-grid { grid-template-columns:1fr; } .hero { min-height:auto; padding:2rem 1rem; } }
