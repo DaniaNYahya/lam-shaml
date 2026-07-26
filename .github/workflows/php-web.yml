@@ -35,7 +35,7 @@ jobs:
       DB_CHARSET: utf8mb4
       UPLOAD_MAX_BYTES: 2097152
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
