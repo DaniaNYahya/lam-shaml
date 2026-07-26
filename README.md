@@ -1,5 +1,9 @@
 # Lam Shaml - نظام لم شمل العائلات
 
+[![PHP Web](https://github.com/DaniaNYahya/lam-shaml/actions/workflows/php-web.yml/badge.svg)](https://github.com/DaniaNYahya/lam-shaml/actions/workflows/php-web.yml)
+
+[لوحة المشروع على Trello](https://trello.com/b/hlKEMq55/lam-shaml-web) | [نتائج GitHub Actions](https://github.com/DaniaNYahya/lam-shaml/actions)
+
 نظام ويب إنساني يعمل بـ PHP 8 وMySQL على XAMPP لمساعدة العائلات على تسجيل المفقودين والأشخاص الذين تم العثور عليهم والبحث عن التطابقات المحتملة مع دعم عربي/RTL.
 
 ## التقنيات
