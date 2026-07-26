@@ -6,5 +6,5 @@ Options -Indexes
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteRule ^(app|database|storage|tests|scripts|backend|mobile)/ - [F,L]
+  RewriteRule ^(app|database|storage|tests|scripts)/ - [F,L]
 </IfModule>

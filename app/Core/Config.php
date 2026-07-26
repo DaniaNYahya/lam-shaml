@@ -34,6 +34,12 @@ final class Config
                 $env[trim($key)] = trim($value);
             }
         }
+        foreach (array_keys($env) as $key) {
+            $processValue = getenv($key);
+            if ($processValue !== false) {
+                $env[$key] = $processValue;
+            }
+        }
         self::$values = [
             'env' => $env['APP_ENV'],
             'app_url' => $env['APP_URL'],

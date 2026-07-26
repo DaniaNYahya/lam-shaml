@@ -1,0 +1,80 @@
+name: PHP Web
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: lam_shaml
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    env:
+      APP_ENV: test
+      APP_URL: http://127.0.0.1:8080
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: lam_shaml
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      DB_CHARSET: utf8mb4
+      UPLOAD_MAX_BYTES: 2097152
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, pdo_mysql, gd, fileinfo
+          coverage: none
+
+      - name: Lint PHP files
+        run: find app public database tests -type f -name "*.php" -print0 | xargs -0 -n1 php -l
+
+      - name: Run unit and security tests
+        run: php tests/run.php
+
+      - name: Install test database
+        run: php database/install.php
+
+      - name: Verify health endpoint
+        run: |
+          php -S 127.0.0.1:8080 -t public >/tmp/lam-shaml-php.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          for attempt in {1..15}; do
+            if health_json="$(curl --fail --silent http://127.0.0.1:8080/health)"; then
+              break
+            fi
+            sleep 1
+          done
+          php -r '
+            $data = json_decode($argv[1], true);
+            if (!is_array($data) || ($data["ok"] ?? false) !== true || ($data["database"] ?? "") !== "up" || ($data["gd"] ?? false) !== true) {
+                fwrite(STDERR, "Health endpoint validation failed.\n");
+                exit(1);
+            }
+          ' "$health_json"
+
+      - name: Check repository for local secrets
+        run: |
+          if git ls-files | grep -Eq '(^|/)\.env$|(^|/)install\.lock$|(^|/)uploads/.+\.php$'; then
+            echo "A local environment, lock, or executable upload file is tracked."
+            exit 1
+          fi

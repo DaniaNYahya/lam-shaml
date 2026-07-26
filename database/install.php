@@ -21,19 +21,29 @@ if (is_file($lock)) {
     exit("تم التثبيت مسبقاً. احذف database/install.lock يدوياً إذا أردت إعادة التثبيت.\n");
 }
 
-$config = Config::get('db');
-$pdo = Database::pdo(false);
-$pdo->exec('CREATE DATABASE IF NOT EXISTS `' . str_replace('`', '', $config['database']) . '` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');
-$pdo->exec('USE `' . str_replace('`', '', $config['database']) . '`');
+try {
+    $config = Config::get('db');
+    $pdo = Database::pdo(false);
+    $pdo->exec('CREATE DATABASE IF NOT EXISTS `' . str_replace('`', '', $config['database']) . '` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');
+    $pdo->exec('USE `' . str_replace('`', '', $config['database']) . '`');
 
-foreach (['schema.sql', 'seed.sql'] as $file) {
-    $sql = file_get_contents(__DIR__ . '/' . $file);
-    if ($sql === false) {
-        throw new RuntimeException('تعذر قراءة ' . $file);
+    foreach (['schema.sql', 'seed.sql'] as $file) {
+        $sql = file_get_contents(__DIR__ . '/' . $file);
+        if ($sql === false) {
+            throw new RuntimeException('تعذر قراءة ' . $file);
+        }
+        $pdo->exec($sql);
+        echo "تم تنفيذ $file\n";
     }
-    $pdo->exec($sql);
-    echo "تم تنفيذ $file\n";
-}
 
-file_put_contents($lock, 'installed_at=' . date(DATE_ATOM) . PHP_EOL);
-echo "اكتمل التثبيت بنجاح.\n";
+    if (file_put_contents($lock, 'installed_at=' . date(DATE_ATOM) . PHP_EOL) === false) {
+        throw new RuntimeException('Install lock write failed.');
+    }
+    echo "اكتمل التثبيت بنجاح.\n";
+} catch (Throwable $exception) {
+    if (PHP_SAPI === 'cli') {
+        fwrite(STDERR, 'Database installation failed: ' . $exception->getMessage() . PHP_EOL);
+        exit(1);
+    }
+    throw $exception;
+}
